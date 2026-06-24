@@ -23,7 +23,7 @@ export default function App() {
 
   const fetchTerms = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/terms');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/terms`);
       const data = await response.json();
       if (data.success) {
         setTerms(data.terms);
@@ -56,7 +56,7 @@ export default function App() {
 
   const handleAddTerm = async (termData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/terms', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/terms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(termData)
