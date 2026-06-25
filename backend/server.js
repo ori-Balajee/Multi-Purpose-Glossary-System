@@ -5,12 +5,18 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
 
+// Route Groups
+const authRoutes = require('./Routes/auth');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Use Routes - BaseURL set
+app.use('/api/auth', authRoutes);
 
 // MongoDB Connection (dummy credentials)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/chessglossary';
