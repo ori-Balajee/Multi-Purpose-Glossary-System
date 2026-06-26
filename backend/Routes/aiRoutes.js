@@ -48,7 +48,7 @@ router.post('/genTerms', async (req, res) => {
                     messages: [
                         {
                             role: "user",
-                            content: "How many 'G's in 'huggingface'?"
+                            content: prompt
                         }
                     ]
                 })
@@ -68,13 +68,18 @@ router.post('/genTerms', async (req, res) => {
             });
         }
 
+        const generatedText =
+            data.choices?.[0]?.message?.content || "";
 
         res.json({
-            raw: data,
+            generatedText
         });
     } catch (error) {
-        res.status(500).json({
-            error: error.message,
+        console.error("Server Error:", error.message);
+
+        return res.status(500).json({
+            success: false,
+            error: "Internal Server Error. Please try again later."
         });
     }
 });
