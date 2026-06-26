@@ -7,6 +7,7 @@ require('dotenv').config();
 
 // Route Groups
 const authRoutes = require('./Routes/auth');
+const aiRoute = require('./Routes/aiRoutes')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,9 +15,14 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log("REQUEST HIT:", req.method, req.url);
+  next();
+});
 
 // Use Routes - BaseURL set
 app.use('/api/auth', authRoutes);
+app.use('/api/ai', aiRoute);
 
 // MongoDB Connection (dummy credentials)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/chessglossary';

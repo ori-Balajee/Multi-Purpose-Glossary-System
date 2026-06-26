@@ -84,13 +84,13 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home/>}/>
+        <Route path='/' element={<Home />} />
         <Route path="/Glossary" element={
 
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-slate-100">
             {/* Header */}
             <header className="container mx-auto px-4 py-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center gap-10">
                 <div className="flex items-center gap-3">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-200/30">
                     <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -104,6 +104,13 @@ export default function App() {
                   className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
                 >
                   Add Term
+                </button>
+
+                <button
+                  onClick={() => alert("Coming Soon")}
+                  className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                >
+                  Generate with AI
                 </button>
               </div>
               <p className="text-slate-400 mt-2">Build terminology with a comprehensive glossary</p>
