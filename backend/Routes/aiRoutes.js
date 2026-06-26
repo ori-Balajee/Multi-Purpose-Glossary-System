@@ -59,21 +59,22 @@ router.post('/genTerms', async (req, res) => {
         console.log("HF Status:", response.status);
 
         const data = await response.json();
-        console.log("HF Response:", data);
 
         if (!response.ok) {
             return res.status(response.status).json({
-                error: "Hugging Face API failed",
-                details: data
+                success: false,
+                error: data?.details?.error || data?.message || "Oops",
+                raw: data
             });
         }
 
-        const generatedText =
-            data.choices?.[0]?.message?.content || "";
+        const generatedText = data?.choices?.[0]?.message?.content || "";
 
-        res.json({
-            generatedText
+        return res.json({
+            success: true,
+            data: generatedText
         });
+
     } catch (error) {
         console.error("Server Error:", error.message);
 
