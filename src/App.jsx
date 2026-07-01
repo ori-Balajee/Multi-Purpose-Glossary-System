@@ -9,6 +9,7 @@ import SignUp from './Pages/SignUp';
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import AIGenerator from './components/AIGenerator';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   const [terms, setTerms] = useState([]);
@@ -88,90 +89,91 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path="/Glossary" element={
-
-          <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-indigo-900 text-slate-100">
-            {/* Header */}
-            <header className="container mx-auto px-4 py-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-200/30">
-                    <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
+          <ProtectedRoute>
+            <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-indigo-900 text-slate-100">
+              {/* Header */}
+              <header className="container mx-auto px-4 py-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-200/30">
+                      <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                      </svg>
+                    </div>
+                    <h1 className="text-2xl font-bold tracking-tight">Glossary</h1>
                   </div>
-                  <h1 className="text-2xl font-bold tracking-tight">Glossary</h1>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setShowAddForm(true)}
+                      className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                    >
+                      Add Term
+                    </button>
+                    <button
+                      onClick={() => setShowAI(true)}
+                      className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                    >
+                      Generate with AI
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setShowAddForm(true)}
-                    className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
-                  >
-                    Add Term
-                  </button>
-                  <button
-                    onClick={() => setShowAI(true)}
-                    className="px-4 py-2 bg-linear-to-r from-emerald-500 to-teal-600 rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
-                  >
-                    Generate with AI
-                  </button>
-                </div>
-              </div>
-              <p className="text-slate-400 mt-2">Build terminology with a comprehensive glossary</p>
-            </header>
+                <p className="text-slate-400 mt-2">Build terminology with a comprehensive glossary</p>
+              </header>
 
-            {/* Filters */}
-            <section className="container mx-auto px-4 py-4">
-              <div className="flex flex-col md:flex-row gap-4">
-                <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                <CategoryFilter
-                  categories={categories}
-                  value={selectedCategory}
-                  onChange={setSelectedCategory}
-                />
-                <DifficultyFilter
-                  difficulties={difficulties}
-                  value={selectedDifficulty}
-                  onChange={setSelectedDifficulty}
-                />
-              </div>
-            </section>
+              {/* Filters */}
+              <section className="container mx-auto px-4 py-4">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                  <CategoryFilter
+                    categories={categories}
+                    value={selectedCategory}
+                    onChange={setSelectedCategory}
+                  />
+                  <DifficultyFilter
+                    difficulties={difficulties}
+                    value={selectedDifficulty}
+                    onChange={setSelectedDifficulty}
+                  />
+                </div>
+              </section>
 
-            {/* Terms Grid */}
-            <main className="container mx-auto px-4 py-8">
-              {filteredTerms.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-slate-400 text-lg">No terms found. Try a different search.</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredTerms.map(term => (
-                    <TermCard key={term._id || term.id} term={term} />
-                  ))}
-                </div>
+              {/* Terms Grid */}
+              <main className="container mx-auto px-4 py-8">
+                {filteredTerms.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-slate-400 text-lg">No terms found. Try a different search.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredTerms.map(term => (
+                      <TermCard key={term._id || term.id} term={term} />
+                    ))}
+                  </div>
+                )}
+              </main>
+
+              {/* Add Term Modal */}
+              {showAddForm && (
+                <AddTermForm
+                  onSubmit={handleAddTerm}
+                  onCancel={() => setShowAddForm(false)}
+                />
               )}
-            </main>
-
-            {/* Add Term Modal */}
-            {showAddForm && (
-              <AddTermForm
-                onSubmit={handleAddTerm}
-                onCancel={() => setShowAddForm(false)}
-              />
-            )}
 
 
-            {showAI && (
-              <AIGenerator
-                onClose={() => setShowAI(false)}
-                onGenerate={(newTerms) => {
-                  setTerms((prev) => [...newTerms, ...prev]);
-                }}
-              />
-            )}
+              {showAI && (
+                <AIGenerator
+                  onClose={() => setShowAI(false)}
+                  onGenerate={(newTerms) => {
+                    setTerms((prev) => [...newTerms, ...prev]);
+                  }}
+                />
+              )}
 
-          </div>
+            </div>
+
+          </ProtectedRoute>
         } />
-
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>
