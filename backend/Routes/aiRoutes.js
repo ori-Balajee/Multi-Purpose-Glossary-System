@@ -1,5 +1,5 @@
 const express = require('express');
-const Term = require('../models/Term');
+const Term = require('../Model/Term');
 const router = express.Router();
 require("dotenv").config();
 

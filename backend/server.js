@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const Term = require('./Models/Term');
+const Term = require('./Model/Term');
 require('dotenv').config();
 
 // Route Groups
