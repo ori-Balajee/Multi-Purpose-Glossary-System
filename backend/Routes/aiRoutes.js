@@ -1,4 +1,5 @@
 const express = require('express');
+const Term = require('../models/Term');
 const router = express.Router();
 require("dotenv").config();
 
@@ -70,9 +71,30 @@ router.post('/genTerms', async (req, res) => {
 
         const generatedText = data?.choices?.[0]?.message?.content || "";
 
+        let parsedData;
+
+        try {
+            parsedData = JSON.parse(generatedText);
+        } catch (err) {
+            return res.status(500).json({
+                success: false,
+                error: "Failed to parse AI response"
+            });
+        }
+
+        await Term.insertMany(
+            parsedData.map(term => ({
+                term: term.term,
+                definition: term.definition,
+                category: term.category,
+                difficulty: term.difficulty,
+                examples: [term.example]
+            }))
+        );
+
         return res.json({
             success: true,
-            data: generatedText
+            data: parsedData
         });
 
     } catch (error) {

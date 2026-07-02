@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const Term = require('./models/Term');
 require('dotenv').config();
 
 // Route Groups
@@ -30,18 +31,6 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
-
-// Term Schema
-const termSchema = new mongoose.Schema({
-  term: { type: String, required: true, unique: true },
-  definition: { type: String, required: true },
-  category: { type: String, required: true },
-  difficulty: { type: String, enum: ['beginner', 'intermediate', 'advanced'], default: 'beginner' },
-  examples: [String],
-  createdAt: { type: Date, default: Date.now }
-});
-
-const Term = mongoose.model('Term', termSchema);
 
 // Routes
 app.get('/api/terms', async (req, res) => {

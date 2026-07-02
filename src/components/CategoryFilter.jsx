@@ -7,7 +7,7 @@ export default function CategoryFilter({ categories, value, onChange }) {
         className="appearance-none px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
       >
         <option value="">All Categories</option>
-        {categories.map(category => (
+        {[...new Set(categories)].map(category => (
           <option key={category} value={category}>{category}</option>
         ))}
       </select>

@@ -21,6 +21,12 @@ export default function AIGenerator({ onClose, onGenerate }) {
         setError(data.error || "API failed");
         return;
       }
+
+      if (!Array.isArray(data.data)) {
+        setError("Invalid response format");
+        return;
+      }
+      
       onGenerate(data.data);
       onClose();
     } catch (err) {
