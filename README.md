@@ -1,2 +1,2 @@
 DEPLOYED :
-shatranje-chess-glossary.vercel.app
+https://shatranje-chess-glossary.vercel.app
